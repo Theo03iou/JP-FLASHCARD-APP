@@ -1,0 +1,20 @@
+<%- include('./header.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <link rel="stylesheet" type="text/css" href="/styles/main.css" /> -->
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="mainDiv">
+      <h1>キツネ🦊</h1>
+      <form action="/ChooseMode" method="POST" class="buttons">
+        <button value="review" name="choice">復習する</button>
+        <button value="learn" name="choice">新語を習う</button>
+      </form>
+    </div>
+  </body>
+</html>

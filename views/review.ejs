@@ -1,0 +1,34 @@
+<%- include('./header.ejs') %>
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>復習</h1>
+
+    <% if (locals.knownData.length >= locals.i) { %>
+        <% if (knownData.length == i && i > 1) { %>
+            <h1>reviews complete</h1>
+            <form action="/saveButton" method="post">
+              <input type="submit" value="Save">
+            </form>
+        <% } else if (knownData[i] == null) { %>
+            <h1>No cards found, go learn some!</h1>
+            <% } else { %>
+            <h1> <%= knownData[i].jpWord %> </h1>
+            <form action="/reviewSubmit" method="POST">
+                <input type="text" name="userAnswer" required>
+                <input type="submit" value="入力">
+            </form>
+         <% } %>
+  <%  }  else { %>
+    <h1>No cards found, go learn some!</h1>
+    <% } %> 
+    
+  </body>
+</html>
+
