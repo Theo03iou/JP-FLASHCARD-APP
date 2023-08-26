@@ -31,9 +31,11 @@ app.get("/", (req, res) => {
   saveJsonToFile(allCards, "./allCards.json");
 });
 
-app.post("/chooseMode", (req, res) => {
-  let totalNotLearned = 0;
+let t = 0;
+let totalNotLearned = 0;
 
+app.post("/chooseMode", (req, res) => {
+    
   console.log(allCards.length);
   console.log(allCards[4]);
   if (req.body.choice === "review") {
@@ -42,15 +44,17 @@ app.post("/chooseMode", (req, res) => {
     for (i; i < allCards.length; i++) {
       if (allCards[i].learned === "false") {
         totalNotLearned++;
+        t = totalNotLearned
       }
     }
     console.log("Not learned:" + totalNotLearned);
     console.log("Deck Length:" + allCards.length);
 
+
     res.render("cardsToLearn.ejs", {
       allCards: allCards,
       toLearn: toLearn,
-      totalNotLearned: totalNotLearned,
+      totalNotLearned: totalNotLearned, t: t
     });
   }
 });
@@ -61,8 +65,7 @@ app.post("/chooseLessons", (req, res) => {
   } else {
     toLearn--;
   }
-
-  res.render("cardsToLearn.ejs", { allCards: allCards, toLearn: toLearn });
+  res.render("cardsToLearn.ejs", { allCards: allCards, toLearn: toLearn, t:t });
 });
 
 app.post("/goToLesson", (req, res) => {

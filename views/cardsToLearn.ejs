@@ -10,32 +10,6 @@
   <body>
     <h1>How many cards do you want to learn?</h1>
     <div class="wrapper">
-      <form action="/chooseLessons" method="POST">
-        <% if (locals.toLearn != 1) { %>
-        <input
-          type="submit"
-          name="choice"
-          value="minus"
-          class="minus"
-          required
-        />
-        <% } %>
-        <span class="num"><%- toLearn %></span>
-        <% if (toLearn < allCards.length) { %>
-
-        <input type="submit" name="choice" value="plus" class="plus" required />
-        <% } %>
-
-      </form>
-
-      <% if (locals.allCards.length > toLearn) { %>
-      <form action="goToLesson" method="post">
-        <input type="submit" value="START LESSON" />
-      </form>
-      <% } %>
-    </div>
-
-    <div class="wrapper">
         <form action="/chooseLessons" method="POST">
           <% if (locals.toLearn != 1) { %>
           <input
@@ -45,17 +19,16 @@
             class="minus"
             required
           />
-          <% console.log(locals.totalNotLearned); %>
           <% } %>
           <span class="num"><%- toLearn %></span>
           <% if (locals.toLearn < locals.t) { %>
-  
+            <% console.log(toLearn); %>
           <input type="submit" name="choice" value="plus" class="plus" required />
           <% } %>
   
         </form>
   
-        <% if (locals.t > toLearn) { %>
+        <% if (locals.t >= toLearn) { %>
         <form action="goToLesson" method="post">
           <input type="submit" value="START LESSON" />
         </form>
