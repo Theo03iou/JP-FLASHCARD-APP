@@ -1,6 +1,6 @@
 [
   {
-    "id": "0000",
+    "id": "0",
     "learned": "false",
     "date": "null",
     "type": "word",
@@ -10,7 +10,7 @@
     "eSentence": "I deposited some money at the bank"
   },
   {
-    "id": "0001",
+    "id": "1",
     "learned": "false",
     "date": "null",
     "type": "word",
@@ -20,7 +20,7 @@
     "eSentence": "I commute to work every day"
   },
   {
-    "id": "0002",
+    "id": "2",
     "learned": "false",
     "date": "null",
     "type": "word",
@@ -30,17 +30,17 @@
     "eSentence": "I commute to work every day"
   },
   {
-    "id": "0003",
+    "id": "3",
     "learned": "false",
     "date": "null",
     "type": "word",
-    "jpWord": "わああ",
+    "jpWord": "肩",
     "jpSentence": "毎日仕事に通勤してます",
     "eWord": "Work",
     "eSentence": "I commute to work every day"
   },
   {
-    "id": "0004",
+    "id": "4",
     "learned": "false",
     "date": "null",
     "type": "word",

@@ -4,6 +4,7 @@ import fs from "fs";
 
 import activeCardList from "./activeCards.json" assert { type: "json" };
 import allCardList from "./allCards.json" assert { type: "json" };
+import cardsToLearnList from "./cardsToLearn.json" assert { type: "json" };
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -14,6 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let activeCards = activeCardList;
 let allCards = allCardList;
+let tempCardsToLearn = cardsToLearnList;
 let i = 0;
 let toLearn = 1;
 
@@ -35,26 +37,25 @@ let t = 0;
 let totalNotLearned = 0;
 
 app.post("/chooseMode", (req, res) => {
-    
-  console.log(allCards.length);
-  console.log(allCards[4]);
+  //   console.log(allCards.length);
+  //   console.log(allCards[4]);
   if (req.body.choice === "review") {
     res.render("review.ejs", { activeCards: activeCards, allCards: allCards });
   } else {
     for (i; i < allCards.length; i++) {
       if (allCards[i].learned === "false") {
         totalNotLearned++;
-        t = totalNotLearned
+        t = totalNotLearned;
       }
     }
-    console.log("Not learned:" + totalNotLearned);
-    console.log("Deck Length:" + allCards.length);
-
+    // console.log("Not learned:" + totalNotLearned);
+    // console.log("Deck Length:" + allCards.length);
 
     res.render("cardsToLearn.ejs", {
       allCards: allCards,
       toLearn: toLearn,
-      totalNotLearned: totalNotLearned, t: t
+      totalNotLearned: totalNotLearned,
+      t: t,
     });
   }
 });
@@ -65,31 +66,48 @@ app.post("/chooseLessons", (req, res) => {
   } else {
     toLearn--;
   }
-  res.render("cardsToLearn.ejs", { allCards: allCards, toLearn: toLearn, t:t });
+  res.render("cardsToLearn.ejs", {
+    allCards: allCards,
+    toLearn: toLearn,
+    t: t,
+  });
 });
 
 app.post("/goToLesson", (req, res) => {
+  let tempPosition = 0;
+  let j = 0;
+  while (j != toLearn) {
+    if (tempPosition <= allCards.length) {
+      if (allCards[tempPosition].learned === "false") {
+        allCards[tempPosition].learned = "true";
+        j++;
+      }
+      tempPosition++;
+    }
+  }
+
   res.render("learn.ejs", {
     activeCards: activeCards,
     allCards: allCards,
+    j: j,
     i: i,
   });
 });
 
 app.post("/learnSubmit", (req, res) => {
-  console.log(i);
+  //   console.log(i);
   if (i <= allCards.length) {
     if (allCards[i].learned === "false") {
       allCards[i].learned = "true";
       activeCards.push(allCards[i]);
-      console.log(allCards[i].jpWord);
-      console.log("normal I" + i);
+      //   console.log(allCards[i].jpWord);
+      //   console.log("normal I" + i);
       i++;
     } else {
-      //   console.log(i);
+      // console.log(i);
 
       i++;
-      console.log("else " + i);
+      //   console.log("else " + i);
     }
   }
 
@@ -101,5 +119,5 @@ app.post("/learnSubmit", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`listening on port ${port}`);
+  //   console.log(`listening on port ${port}`);
 });
