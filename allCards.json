@@ -2,6 +2,7 @@
   {
     "id": "0",
     "learned": "false",
+    "status": "active",
     "date": "null",
     "type": "word",
     "jpWord": "銀行",
@@ -12,6 +13,7 @@
   {
     "id": "1",
     "learned": "false",
+    "status": "ignored",
     "date": "null",
     "type": "word",
     "jpWord": "仕事",
@@ -22,6 +24,7 @@
   {
     "id": "2",
     "learned": "false",
+    "status": "active",
     "date": "null",
     "type": "word",
     "jpWord": "うんこ",
@@ -32,6 +35,7 @@
   {
     "id": "3",
     "learned": "false",
+    "status": "active",
     "date": "null",
     "type": "word",
     "jpWord": "肩",
@@ -42,6 +46,7 @@
   {
     "id": "4",
     "learned": "false",
+    "status": "active",
     "date": "null",
     "type": "word",
     "jpWord": "荷物",

@@ -9,11 +9,13 @@
   </head>
   <body>
     <h1>習う</h1>
-        <h1><%= locals.allCards[i].jpWord %></h1>
-
+    <% if (locals.allCards[locals.j].learned === "false") {%>
+    <h1><%= locals.allCards[locals.j].jpWord %></h1>
     <form action="/learnSubmit" method="POST">
       <input type="submit" value="習う" required />
     </form>
+    <% } else { %>
+    <h1>No new words to learn!</h1>
+    <% } %>
   </body>
 </html>
-

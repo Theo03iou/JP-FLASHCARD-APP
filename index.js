@@ -4,7 +4,6 @@ import fs from "fs";
 
 import activeCardList from "./activeCards.json" assert { type: "json" };
 import allCardList from "./allCards.json" assert { type: "json" };
-import cardsToLearnList from "./cardsToLearn.json" assert { type: "json" };
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -15,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let activeCards = activeCardList;
 let allCards = allCardList;
-let tempCardsToLearn = cardsToLearnList;
 let i = 0;
 let toLearn = 1;
 
@@ -37,8 +35,6 @@ let t = 0;
 let totalNotLearned = 0;
 
 app.post("/chooseMode", (req, res) => {
-  //   console.log(allCards.length);
-  //   console.log(allCards[4]);
   if (req.body.choice === "review") {
     res.render("review.ejs", { activeCards: activeCards, allCards: allCards });
   } else {
@@ -48,8 +44,6 @@ app.post("/chooseMode", (req, res) => {
         t = totalNotLearned;
       }
     }
-    // console.log("Not learned:" + totalNotLearned);
-    // console.log("Deck Length:" + allCards.length);
 
     res.render("cardsToLearn.ejs", {
       allCards: allCards,
@@ -76,38 +70,42 @@ app.post("/chooseLessons", (req, res) => {
 app.post("/goToLesson", (req, res) => {
   let tempPosition = 0;
   let j = 0;
+  let currentCard = 0;
+  let cardsToLearnArray = [];
   while (j != toLearn) {
     if (tempPosition <= allCards.length) {
       if (allCards[tempPosition].learned === "false") {
+        cardsToLearnArray.push(tempPosition)
         allCards[tempPosition].learned = "true";
         j++;
       }
       tempPosition++;
     }
+    // console.log(allCards[0].jpWord);
+    // let tempPlace = cardsToLearnArray[j]
+    console.log(cardsToLearnArray);
   }
 
   res.render("learn.ejs", {
     activeCards: activeCards,
     allCards: allCards,
+    tempPosition: tempPosition,
     j: j,
-    i: i,
+    currentCard: currentCard
   });
 });
 
 app.post("/learnSubmit", (req, res) => {
-  //   console.log(i);
   if (i <= allCards.length) {
-    if (allCards[i].learned === "false") {
+    if (allCards[i].learned === "false" && allCards[i].status !== "ignored") {
       allCards[i].learned = "true";
       activeCards.push(allCards[i]);
-      //   console.log(allCards[i].jpWord);
-      //   console.log("normal I" + i);
+      console.log("normal I" + i);
       i++;
     } else {
-      // console.log(i);
+      console.log("else " + i);
 
       i++;
-      //   console.log("else " + i);
     }
   }
 
@@ -119,5 +117,5 @@ app.post("/learnSubmit", (req, res) => {
 });
 
 app.listen(port, () => {
-  //   console.log(`listening on port ${port}`);
+  console.log(`listening on port ${port}`);
 });
