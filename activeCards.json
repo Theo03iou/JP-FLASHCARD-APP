@@ -962,5 +962,38 @@
     "jpSentence": "銀行にお金を預けてた",
     "eWord": "Bank",
     "eSentence": "I deposited some money at the bank"
+  },
+  {
+    "id": "0",
+    "learned": "true",
+    "status": "active",
+    "date": "null",
+    "type": "word",
+    "jpWord": "銀行",
+    "jpSentence": "銀行にお金を預けてた",
+    "eWord": "Bank",
+    "eSentence": "I deposited some money at the bank"
+  },
+  {
+    "id": "0",
+    "learned": "true",
+    "status": "active",
+    "date": "null",
+    "type": "word",
+    "jpWord": "銀行",
+    "jpSentence": "銀行にお金を預けてた",
+    "eWord": "Bank",
+    "eSentence": "I deposited some money at the bank"
+  },
+  {
+    "id": "0",
+    "learned": "true",
+    "status": "active",
+    "date": "null",
+    "type": "word",
+    "jpWord": "銀行",
+    "jpSentence": "銀行にお金を預けてた",
+    "eWord": "Bank",
+    "eSentence": "I deposited some money at the bank"
   }
 ]

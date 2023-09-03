@@ -7,6 +7,8 @@ import allCardList from "./allCards.json" assert { type: "json" };
 import path from "path";
 import { fileURLToPath } from "url";
 
+
+
 const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
@@ -159,11 +161,13 @@ app.post("/learnSubmit", (req, res) => {
     currentCardIndex++;
   }
 
-  res.render("learn.ejs", {
-    activeCards: activeCards,
-    allCards: allCards,
-    currentCardIndex: currentCardIndex,
-  });
+  res.redirect("learn.ejs")
+
+//   res.render("learn.ejs", {
+//     activeCards: activeCards,
+//     allCards: allCards,
+//     currentCardIndex: currentCardIndex,
+//   });
 });
 
 app.listen(port, () => {
