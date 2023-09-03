@@ -14,7 +14,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 let activeCards = activeCardList;
 let allCards = allCardList;
-let i = 0;
+let currentCardIndex = 0;
 let toLearn = 1;
 
 app.use(express.static("public"));
@@ -38,8 +38,15 @@ app.post("/chooseMode", (req, res) => {
   if (req.body.choice === "review") {
     res.render("review.ejs", { activeCards: activeCards, allCards: allCards });
   } else {
-    for (i; i < allCards.length; i++) {
-      if (allCards[i].learned === "false") {
+    for (
+      currentCardIndex;
+      currentCardIndex < allCards.length;
+      currentCardIndex++
+    ) {
+      if (
+        allCards[currentCardIndex].learned === "false" &&
+        allCards[currentCardIndex].status !== "ignored"
+      ) {
         totalNotLearned++;
         t = totalNotLearned;
       }
@@ -69,13 +76,18 @@ app.post("/chooseLessons", (req, res) => {
 
 app.post("/goToLesson", (req, res) => {
   let tempPosition = 0;
+  currentCardIndex = 0;
   let j = 0;
+  toLearn = 1;
   let currentCard = 0;
   let cardsToLearnArray = [];
-  while (j != toLearn) {
-    if (tempPosition <= allCards.length) {
-      if (allCards[tempPosition].learned === "false") {
-        cardsToLearnArray.push(tempPosition)
+  if (tempPosition <= toLearn) {
+    while (j != toLearn && j <= allCards.length) {
+      if (
+        allCards[tempPosition].learned == "false" &&
+        allCards[tempPosition].status != "ignored"
+      ) {
+        cardsToLearnArray.push(tempPosition);
         allCards[tempPosition].learned = "true";
         j++;
       }
@@ -83,36 +95,42 @@ app.post("/goToLesson", (req, res) => {
     }
     // console.log(allCards[0].jpWord);
     // let tempPlace = cardsToLearnArray[j]
-    console.log(cardsToLearnArray);
+    console.log("cardsToLearnArray" + cardsToLearnArray);
+    console.log("currentCardIndex " + currentCardIndex);
   }
 
+  console.log("ToLearn " + toLearn);
   res.render("learn.ejs", {
     activeCards: activeCards,
     allCards: allCards,
     tempPosition: tempPosition,
     j: j,
-    currentCard: currentCard
+    currentCardIndex: currentCardIndex,
+    currentCard: currentCard,
+    toLearn: toLearn,
   });
 });
 
-app.post("/learnSubmit", (req, res) => {
-  if (i <= allCards.length) {
-    if (allCards[i].learned === "false" && allCards[i].status !== "ignored") {
-      allCards[i].learned = "true";
-      activeCards.push(allCards[i]);
-      console.log("normal I" + i);
-      i++;
-    } else {
-      console.log("else " + i);
+let totalCardsToAdd = 0;
 
-      i++;
-    }
+app.post("/learnSubmit", (req, res) => {
+  if (currentCardIndex <= toLearn) {
+    allCards[currentCardIndex].learned = "true";
+    activeCards.push(allCards[currentCardIndex]);
+    console.log("normal currentCardIndex" + currentCardIndex);
+    console.log("totalCardsToAdd" + totalCardsToAdd);
+    currentCardIndex++;
+  } else {
+    console.log("else " + currentCardIndex);
+    console.log("totalCardsToAdd" + totalCardsToAdd);
+
+    currentCardIndex++;
   }
 
   res.render("learn.ejs", {
     activeCards: activeCards,
     allCards: allCards,
-    i: i,
+    currentCardIndex: currentCardIndex,
   });
 });
 

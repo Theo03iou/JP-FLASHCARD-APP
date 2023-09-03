@@ -1,7 +1,7 @@
 [
   {
     "id": "0",
-    "learned": "false",
+    "learned": "true",
     "status": "active",
     "date": "null",
     "type": "word",
@@ -13,7 +13,7 @@
   {
     "id": "1",
     "learned": "false",
-    "status": "ignored",
+    "status": "active",
     "date": "null",
     "type": "word",
     "jpWord": "仕事",
