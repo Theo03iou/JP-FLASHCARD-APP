@@ -7,8 +7,6 @@ import allCardList from "./allCards.json" assert { type: "json" };
 import path from "path";
 import { fileURLToPath } from "url";
 
-
-
 const app = express();
 const port = 3000;
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +16,12 @@ let activeCards = activeCardList;
 let allCards = allCardList;
 let currentCardIndex = 0;
 let toLearn = 1;
+let i = 0;
+let tempPosition = 0;
+let j = 0;
+let currentCard = 0;
+// currentCardIndex = 0;
+let cardsToLearnArray = [];
 
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -41,13 +45,13 @@ app.post("/chooseMode", (req, res) => {
     res.render("review.ejs", { activeCards: activeCards, allCards: allCards });
   } else {
     for (
-      currentCardIndex;
-      currentCardIndex < allCards.length;
-      currentCardIndex++
+      i;
+      i < allCards.length;
+      i++
     ) {
       if (
-        allCards[currentCardIndex].learned === "false" &&
-        allCards[currentCardIndex].status !== "ignored"
+        allCards[i].learned === "false" &&
+        allCards[i].status !== "ignored"
       ) {
         totalNotLearned++;
         t = totalNotLearned;
@@ -59,6 +63,7 @@ app.post("/chooseMode", (req, res) => {
       toLearn: toLearn,
       totalNotLearned: totalNotLearned,
       t: t,
+      i:i
     });
   }
 });
@@ -77,27 +82,27 @@ app.post("/chooseLessons", (req, res) => {
 });
 
 app.post("/goToLesson", (req, res) => {
-  let tempPosition = 0;
-  let j = 0;
-  let currentCard = 0;
-  currentCardIndex = 0;
-  let cardsToLearnArray = [];
-  if (tempPosition <= toLearn) {
+  console.log("currentCard " + currentCard);
+  console.log("j " + j);
+
+  if (currentCard <= toLearn) {
     while (j != toLearn && j <= allCards.length) {
       if (
-        allCards[tempPosition].learned == "false" &&
-        allCards[tempPosition].status != "ignored"
+        allCards[currentCard].learned == "false" &&
+        allCards[currentCard].status != "ignored"
       ) {
-        cardsToLearnArray.push(tempPosition);
-        allCards[tempPosition].learned = "true";
-        // console.log("tempPosition" + tempPosition);
+        cardsToLearnArray.push(currentCard);
+        allCards[currentCard].learned = "true";
+        // console.log("currentCard" + currentCard);
         j++;
       }
-      tempPosition++;
+      currentCard++;
     }
 
     // console.log("cardsToLearnArray" + cardsToLearnArray);
     // console.log("currentCardIndex " + currentCardIndex);
+    // console.log("tempPosition " + tempPosition);
+    // console.log("currentCard " + currentCard);
   }
 
   //   console.log("ToLearn " + toLearn);
@@ -111,6 +116,32 @@ app.post("/goToLesson", (req, res) => {
     currentCard: currentCard,
     toLearn: toLearn,
   });
+});
+
+app.post("/learnSubmit", (req, res) => {
+  if (currentCard <= toLearn) {
+    allCards[currentCard].learned = "true";
+    activeCards.push(allCards[currentCard]);
+
+    currentCard++;
+  } else {
+    currentCard++;
+  }
+
+  res.render("learn.ejs", {
+    activeCards: activeCards,
+    allCards: allCards,
+    tempPosition: tempPosition,
+    j: j,
+    cardsToLearnArray: cardsToLearnArray,
+    currentCardIndex: currentCardIndex,
+    currentCard: currentCard,
+    toLearn: toLearn,
+  });
+});
+
+app.listen(port, () => {
+  console.log(`listening on port ${port}`);
 });
 
 // app.post("/goToLesson", (req, res) => {
@@ -146,30 +177,3 @@ app.post("/goToLesson", (req, res) => {
 //       toLearn: toLearn,
 //     });
 //   });
-
-app.post("/learnSubmit", (req, res) => {
-  if (currentCardIndex <= toLearn) {
-    allCards[currentCardIndex].learned = "true";
-    activeCards.push(allCards[currentCardIndex]);
-    // console.log("normal currentCardIndex" + currentCardIndex);
-    // console.log("totalCardsToAdd" + totalCardsToAdd);
-    currentCardIndex++;
-  } else {
-    // console.log("else " + currentCardIndex);
-    // console.log("totalCardsToAdd" + totalCardsToAdd);
-
-    currentCardIndex++;
-  }
-
-  res.redirect("learn.ejs")
-
-//   res.render("learn.ejs", {
-//     activeCards: activeCards,
-//     allCards: allCards,
-//     currentCardIndex: currentCardIndex,
-//   });
-});
-
-app.listen(port, () => {
-  console.log(`listening on port ${port}`);
-});
